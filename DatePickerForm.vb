@@ -29,8 +29,8 @@ Public Class DatePicker
     End Sub
 
     Private Sub DatePicker_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Me.Width = Me.theCalendar.Width + 10
-        Me.Height = Me.theCalendar.Height + 70
+        Me.Width = Me.theCalendar.Width + 15
+        Me.Height = Me.theCalendar.Height + 75
     End Sub
 
     Private lastClickTick As Integer = 0
