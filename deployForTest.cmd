@@ -17,5 +17,6 @@ if "%source%"=="bin\Release" (
 	echo copying Distribution
 	copy /Y %source%\DatePicker-AddIn64-packed.xll Distribution\DatePicker64.xll
 	copy /Y %source%\DatePicker-AddIn-packed.xll Distribution\DatePicker32.xll
+	copy /Y TestVBA.xlsm Distribution
 )
 pause
