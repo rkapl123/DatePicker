@@ -1,5 +1,6 @@
 Imports ExcelDna.Integration.CustomUI
 Imports ExcelDna.Integration
+Imports Microsoft.Office.Interop
 Imports System.Runtime.InteropServices
 
 Public Module Menu
@@ -23,8 +24,8 @@ Public Class MenuHandler
         ' Ribbon definition XML
         Dim customUIXml As String = "<customUI xmlns='http://schemas.microsoft.com/office/2009/07/customui' onLoad='ribbonLoaded' ><ribbon><tabs><tab id='CustomTab' label='DatePicker'>" +
         "<group id='DatePicker' label='Date Picker'>" +
-            "<button id='Button1' label='Date Picker' imageMso='' size='large' onAction='displayDatepicker' screentip='shows Datepicker'/>" +
-            "<dialogBoxLauncher><button id='Button2' label='getInfo' onAction='getInfo' screentip='Info about Date Picker'/></dialogBoxLauncher>" +
+            "<button id='Button1' label='Date Picker' imageMso='DateAndTimeInsert' size='large' onAction='displayDatepicker' screentip='shows Datepicker'/>" +
+            "<dialogBoxLauncher><button id='Button2' onAction='getInfo' screentip='Info about Date Picker'/></dialogBoxLauncher>" +
         "</group>" +
         "</tab></tabs></ribbon></customUI>"
         Return customUIXml
@@ -34,17 +35,59 @@ Public Class MenuHandler
 
     ''' <summary>get Addin Info</summary>
     ''' <param name="control"></param>
-    ''' <returns></returns>
-    Public Function getInfo(control As CustomUI.IRibbonControl) As String
-
-    End Function
+    Public Sub getInfo(control As CustomUI.IRibbonControl)
+        Dim sModule As String
+        For Each tModule As ProcessModule In Process.GetCurrentProcess().Modules
+            sModule = tModule.FileName
+            If sModule.ToUpper.Contains("DATEPICKER") Then
+                If MsgBox("Datepicker provides a replacement for the MSCOMCT2 Datepicker abandoned by Microsoft." + vbCrLf +
+                    "You can either use it from the Ribbon to place a date value or a date range (if more than one cell was selected) into the selection" + vbCrLf +
+                     "or within VBA Userforms to place Date Input Fields (see TestVBA.xlsm for demonstration code)." + vbCrLf + vbCrLf +
+                    "Addin File: " + sModule + vbCrLf + "Built: " + FileDateTime(sModule).ToString(), MsgBoxStyle.Information) Then
+                End If
+            End If
+        Next
+    End Sub
 
     ''' <summary>display Datepicker</summary>
     ''' <param name="control"></param>
-    ''' <returns></returns>
-    Public Function displayDatepicker(control As CustomUI.IRibbonControl) As String
-
-    End Function
+    Public Sub displayDatepicker(control As CustomUI.IRibbonControl)
+        Dim currentSelection As Excel.Range = ExcelDnaUtil.Application.Selection
+        If currentSelection Is Nothing Then Exit Sub
+        Dim theDatepicker As DatePicker = New DatePicker()
+        If currentSelection.Rows.Count() > 1 AndAlso InStr(currentSelection.Cells(1, 1).NumberFormat, "yy") AndAlso InStr(currentSelection.Cells(2, 1).NumberFormat, "yy") Then
+            theDatepicker.Calendar.SetSelectionRange(Date.FromOADate(currentSelection.Cells(1, 1).Value2), Date.FromOADate(currentSelection.Cells(2, 1).Value2))
+        ElseIf currentSelection.Columns.Count() > 1 AndAlso InStr(currentSelection.Cells(1, 1).NumberFormat, "yy") AndAlso InStr(currentSelection.Cells(1, 2).NumberFormat, "yy") Then
+            theDatepicker.Calendar.SetSelectionRange(Date.FromOADate(currentSelection.Cells(1, 1).Value2), Date.FromOADate(currentSelection.Cells(1, 2).Value2))
+        ElseIf InStr(currentSelection.Cells(1, 1).NumberFormat, "yy") Then
+            theDatepicker.Calendar.SetDate(Date.FromOADate(currentSelection.Cells(1, 1).Value2))
+        End If
+        ' for multiple cells, enable date range with large calendar (year) otherwise only 1 month and single date
+        If currentSelection.Cells.Count() > 1 Then
+            theDatepicker.Calendar.SetCalendarDimensions(4, 3)
+            theDatepicker.Calendar.MaxSelectionCount = 366
+        Else
+            theDatepicker.Calendar.SetCalendarDimensions(1, 1)
+            theDatepicker.Calendar.MaxSelectionCount = 1
+        End If
+        theDatepicker.Calendar.ShowWeekNumbers = True
+        theDatepicker.Calendar.ShowTodayCircle = False
+        theDatepicker.ShowDialog()
+        If currentSelection.Cells.Count() = 1 Then
+            currentSelection.Value = theDatepicker.startDate
+            currentSelection.Cells(1, 1).NumberFormat = "dd/mm/yyyy"
+        ElseIf currentSelection.Rows.Count() > 1 Then
+            currentSelection.Cells(1, 1).Value = theDatepicker.startDate
+            currentSelection.Cells(1, 1).NumberFormat = "dd/mm/yyyy"
+            currentSelection.Cells(2, 1).Value = theDatepicker.endDate
+            currentSelection.Cells(2, 1).NumberFormat = "dd/mm/yyyy"
+        ElseIf currentSelection.Columns.Count() > 1 Then
+            currentSelection.Cells(1, 1).Value = theDatepicker.startDate
+            currentSelection.Cells(1, 1).NumberFormat = "dd/mm/yyyy"
+            currentSelection.Cells(1, 2).Value = theDatepicker.endDate
+            currentSelection.Cells(1, 2).NumberFormat = "dd/mm/yyyy"
+        End If
+    End Sub
 
 #Enable Warning IDE0060
 

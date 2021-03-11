@@ -10,20 +10,18 @@ Public Class DatePicker
     Public Calendar As MonthCalendar
 
     Public Sub New()
-        ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
-        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         Calendar = theCalendar
     End Sub
 
-    Private Sub OK_Click(sender As Object, e As EventArgs) Handles OK.Click
+    Private Sub OK_Click(sender As Object, e As EventArgs) Handles OK.Click, Cancel.Click
         startDate = theCalendar.SelectionStart.Date.ToOADate()
         endDate = theCalendar.SelectionEnd.Date.ToOADate()
         Me.DialogResult = DialogResult.OK
         Me.Close()
     End Sub
 
-    Private Sub Cancel_Click(sender As Object, e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click(sender As Object, e As EventArgs)
         startDate = 0
         endDate = 0
         Me.DialogResult = DialogResult.Cancel
@@ -32,6 +30,30 @@ Public Class DatePicker
 
     Private Sub DatePicker_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.Width = Me.theCalendar.Width + 10
-        Me.Height = Me.theCalendar.Height + 60
+        Me.Height = Me.theCalendar.Height + 70
     End Sub
+
+    Private lastClickTick As Integer = 0
+    Private hasChanged As Boolean
+
+    ''' <summary>emulate double click on date value</summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub theCalendar_DateSelected(sender As Object, e As DateRangeEventArgs) Handles theCalendar.DateSelected
+        If (Environment.TickCount - lastClickTick) <= SystemInformation.DoubleClickTime And Not hasChanged Then
+            startDate = theCalendar.SelectionStart.Date.ToOADate()
+            endDate = theCalendar.SelectionEnd.Date.ToOADate()
+            Me.DialogResult = DialogResult.OK
+            Me.Close()
+        Else
+            lastClickTick = Environment.TickCount
+        End If
+        hasChanged = False
+    End Sub
+
+    Private Sub theCalendar_DateChanged(sender As Object, e As DateRangeEventArgs) Handles theCalendar.DateChanged
+        lastClickTick = Environment.TickCount
+        hasChanged = True
+    End Sub
+
 End Class

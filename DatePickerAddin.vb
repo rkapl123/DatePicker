@@ -22,16 +22,5 @@ Public Class AddInEvents
         ComServer.DllUnregisterServer()
     End Sub
 
-    ''' <summary>open workbook: update Ribbon</summary>
-    ''' <param name="Wb"></param>
-    Private Sub Application_WorkbookOpen(Wb As Excel.Workbook) Handles Application.WorkbookOpen
-        If Not Wb.IsAddin Then Menu.theRibbon.Invalidate()
-    End Sub
-
-    ''' <summary>WorkbookActivate: update Ribbon</summary>
-    Private Sub Application_WorkbookActivate(Wb As Excel.Workbook) Handles Application.WorkbookActivate
-        Menu.theRibbon.Invalidate()
-    End Sub
-
 End Class
 
