@@ -9,7 +9,7 @@ You can either use it from the Ribbon to place a date value or a date range (if 
 Selection of a Date is either done with OK or by double clicking a date in the calendar widget.
 
 Adding to VBA works by setting a label field and utilizing the click event on it to display the associated DatePicker created with CreateObject("DatePicker.DatePicker").
-The internals of the VB.NET MonthCalendar Widget are passed through in member variable Calendar and can be set accordingly before the ShowDialog (avoid method Show as it won't be modal and close immediately).
+The internals of the VB.NET [MonthCalendar Widget](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.monthcalendar) are passed through in member variable Calendar and can be set accordingly before the ShowDialog (avoid method Show as it won't be modal and close immediately).
 The results are returned in member variables StartDate and EndDate, they are passed in Excel's internal Julian date format (of type double).
 
 Following code is placed within a VBA Userform:
