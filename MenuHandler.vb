@@ -55,13 +55,6 @@ Public Class MenuHandler
         Dim currentSelection As Excel.Range = ExcelDnaUtil.Application.Selection
         If currentSelection Is Nothing Then Exit Sub
         Dim theDatepicker As DatePicker = New DatePicker()
-        If currentSelection.Rows.Count() > 1 AndAlso InStr(currentSelection.Cells(1, 1).NumberFormat, "yy") AndAlso InStr(currentSelection.Cells(2, 1).NumberFormat, "yy") Then
-            theDatepicker.Calendar.SetSelectionRange(Date.FromOADate(currentSelection.Cells(1, 1).Value2), Date.FromOADate(currentSelection.Cells(2, 1).Value2))
-        ElseIf currentSelection.Columns.Count() > 1 AndAlso InStr(currentSelection.Cells(1, 1).NumberFormat, "yy") AndAlso InStr(currentSelection.Cells(1, 2).NumberFormat, "yy") Then
-            theDatepicker.Calendar.SetSelectionRange(Date.FromOADate(currentSelection.Cells(1, 1).Value2), Date.FromOADate(currentSelection.Cells(1, 2).Value2))
-        ElseIf InStr(currentSelection.Cells(1, 1).NumberFormat, "yy") Then
-            theDatepicker.Calendar.SetDate(Date.FromOADate(currentSelection.Cells(1, 1).Value2))
-        End If
         ' for multiple cells, enable date range with large calendar (year) otherwise only 1 month and single date
         If currentSelection.Cells.Count() > 1 Then
             theDatepicker.Calendar.SetCalendarDimensions(4, 3)
@@ -69,6 +62,13 @@ Public Class MenuHandler
         Else
             theDatepicker.Calendar.SetCalendarDimensions(1, 1)
             theDatepicker.Calendar.MaxSelectionCount = 1
+        End If
+        If currentSelection.Rows.Count() > 1 AndAlso InStr(currentSelection.Cells(1, 1).NumberFormat, "mm") AndAlso InStr(currentSelection.Cells(2, 1).NumberFormat, "mm") Then
+            theDatepicker.Calendar.SetSelectionRange(Date.FromOADate(currentSelection.Cells(1, 1).Value2), Date.FromOADate(currentSelection.Cells(2, 1).Value2))
+        ElseIf currentSelection.Columns.Count() > 1 AndAlso InStr(currentSelection.Cells(1, 1).NumberFormat, "mm") AndAlso InStr(currentSelection.Cells(1, 2).NumberFormat, "mm") Then
+            theDatepicker.Calendar.SetSelectionRange(Date.FromOADate(currentSelection.Cells(1, 1).Value2), Date.FromOADate(currentSelection.Cells(1, 2).Value2))
+        ElseIf InStr(currentSelection.Cells(1, 1).NumberFormat, "mm") Then
+            theDatepicker.Calendar.SetDate(Date.FromOADate(currentSelection.Cells(1, 1).Value2))
         End If
         theDatepicker.Calendar.ShowWeekNumbers = True
         theDatepicker.Calendar.ShowTodayCircle = False
