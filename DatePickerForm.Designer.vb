@@ -36,9 +36,9 @@ Partial Class DatePicker
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(4, 171)
+        Me.OK.Location = New System.Drawing.Point(0, 171)
         Me.OK.Name = "OK"
-        Me.OK.Size = New System.Drawing.Size(71, 23)
+        Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 1
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
@@ -47,10 +47,10 @@ Partial Class DatePicker
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.Cancel.Location = New System.Drawing.Point(90, 171)
+        Me.Cancel.Location = New System.Drawing.Point(95, 171)
         Me.Cancel.Name = "Cancel"
-        Me.Cancel.Size = New System.Drawing.Size(71, 23)
-        Me.Cancel.TabIndex = 1
+        Me.Cancel.Size = New System.Drawing.Size(74, 23)
+        Me.Cancel.TabIndex = 2
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '

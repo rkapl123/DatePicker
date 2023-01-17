@@ -14,14 +14,13 @@ Public Class DatePicker
         Calendar = theCalendar
     End Sub
 
-    Private Sub OK_Click(sender As Object, e As EventArgs) Handles OK.Click, Cancel.Click
+    Private Sub OK_Click(sender As Object, e As EventArgs) Handles OK.Click
         startDate = theCalendar.SelectionStart.Date.ToOADate()
         endDate = theCalendar.SelectionEnd.Date.ToOADate()
         Me.DialogResult = DialogResult.OK
         Me.Close()
     End Sub
-
-    Private Sub Cancel_Click(sender As Object, e As EventArgs)
+    Private Sub Cancel_Click(sender As Object, e As EventArgs) Handles Cancel.Click
         startDate = 0
         endDate = 0
         Me.DialogResult = DialogResult.Cancel

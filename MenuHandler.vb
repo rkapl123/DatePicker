@@ -72,20 +72,21 @@ Public Class MenuHandler
         End If
         theDatepicker.Calendar.ShowWeekNumbers = True
         theDatepicker.Calendar.ShowTodayCircle = False
-        theDatepicker.ShowDialog()
-        If currentSelection.Cells.Count() = 1 Then
-            currentSelection.Value = theDatepicker.startDate
-            currentSelection.Cells(1, 1).NumberFormat = "dd/mm/yyyy"
-        ElseIf currentSelection.Rows.Count() > 1 Then
-            currentSelection.Cells(1, 1).Value = theDatepicker.startDate
-            currentSelection.Cells(1, 1).NumberFormat = "dd/mm/yyyy"
-            currentSelection.Cells(2, 1).Value = theDatepicker.endDate
-            currentSelection.Cells(2, 1).NumberFormat = "dd/mm/yyyy"
-        ElseIf currentSelection.Columns.Count() > 1 Then
-            currentSelection.Cells(1, 1).Value = theDatepicker.startDate
-            currentSelection.Cells(1, 1).NumberFormat = "dd/mm/yyyy"
-            currentSelection.Cells(1, 2).Value = theDatepicker.endDate
-            currentSelection.Cells(1, 2).NumberFormat = "dd/mm/yyyy"
+        If theDatepicker.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            If currentSelection.Cells.Count() = 1 Then
+                currentSelection.Value = theDatepicker.startDate
+                currentSelection.Cells(1, 1).NumberFormat = "dd/mm/yyyy"
+            ElseIf currentSelection.Rows.Count() > 1 Then
+                currentSelection.Cells(1, 1).Value = theDatepicker.startDate
+                currentSelection.Cells(1, 1).NumberFormat = "dd/mm/yyyy"
+                currentSelection.Cells(2, 1).Value = theDatepicker.endDate
+                currentSelection.Cells(2, 1).NumberFormat = "dd/mm/yyyy"
+            ElseIf currentSelection.Columns.Count() > 1 Then
+                currentSelection.Cells(1, 1).Value = theDatepicker.startDate
+                currentSelection.Cells(1, 1).NumberFormat = "dd/mm/yyyy"
+                currentSelection.Cells(1, 2).Value = theDatepicker.endDate
+                currentSelection.Cells(1, 2).NumberFormat = "dd/mm/yyyy"
+            End If
         End If
     End Sub
 
