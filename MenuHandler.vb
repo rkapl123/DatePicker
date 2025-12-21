@@ -43,7 +43,7 @@ Public Class MenuHandler
                 If MsgBox("Datepicker provides a replacement for the MSCOMCT2 Datepicker abandoned by Microsoft." + vbCrLf +
                     "You can either use it from the Ribbon to place a date value or a date range (if more than one cell was selected) into the selection" + vbCrLf +
                      "or within VBA Userforms to place Date Input Fields (see TestVBA.xlsm for demonstration code)." + vbCrLf + vbCrLf +
-                    "Addin File: " + sModule + vbCrLf + "Built: " + FileDateTime(sModule).ToString(), MsgBoxStyle.Information) Then
+                    "Addin File: " + sModule + vbCrLf + "Version: " + My.Application.Info.Version.ToString() + vbCrLf + "Built: " + FileDateTime(sModule).ToString(), MsgBoxStyle.Information) Then
                 End If
             End If
         Next

@@ -8,10 +8,12 @@ Public Class DatePicker
     Public startDate As Double
     Public endDate As Double
     Public Calendar As MonthCalendar
+    Public Hwnd As VariantType
 
     Public Sub New()
         InitializeComponent()
         Calendar = theCalendar
+        Hwnd = Me.Handle
     End Sub
 
     Private Sub OK_Click(sender As Object, e As EventArgs) Handles OK.Click
